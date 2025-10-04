@@ -2,28 +2,58 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Rohit Raj Saji - Computer Science Graduate & Aspiring Associate Software Developer">
+
+    <!-- Performance optimizations -->
+    <meta name="theme-color" content="#2563eb">
+    <meta name="color-scheme" content="light">
+
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
     <title>Rohit Raj Saji - Portfolio</title>
+
+    <!-- Optimized CSS loading -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Prevent flash of unstyled content -->
+    <script>
+        document.documentElement.classList.add('js-enabled');
+    </script>
+
+    <style>
+        /* Critical CSS for above-the-fold content */
+        .js-enabled .animate-element:not(.animate-in) {
+            opacity: 0;
+        }
+
+        /* Loading state */
+        body.loading * {
+            transition: none !important;
+            animation: none !important;
+        }
+    </style>
 </head>
-<body>
+<body class="loading">
     <!-- Navigation -->
     <nav id="navbar">
         <div class="nav-container">
             <div class="nav-brand animate-element slide-left">Portfolio</div>
-            <button class="menu-toggle" id="menuToggle">
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation menu">
                 <span></span>
                 <span></span>
                 <span></span>
             </button>
-            <ul class="nav-links animate-element slide-right" id="navLinks">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#certificates">Certificates</a></li>
-                <li><a href="#organizations">Community</a></li>
+            <ul class="nav-links animate-element slide-right" id="navLinks" role="menubar">
+                <li><a href="#home" role="menuitem">Home</a></li>
+                <li><a href="#education" role="menuitem">Education</a></li>
+                <li><a href="#skills" role="menuitem">Skills</a></li>
+                <li><a href="#experience" role="menuitem">Experience</a></li>
+                <li><a href="#projects" role="menuitem">Projects</a></li>
+                <li><a href="#certificates" role="menuitem">Certificates</a></li>
+                <li><a href="#organizations" role="menuitem">Community</a></li>
             </ul>
         </div>
     </nav>
@@ -33,10 +63,10 @@
         <div class="container">
             <div class="hero-content">
                 <h1 class="animate-element delay-1">Rohit Raj Saji</h1>
-                <div class="title animate-element delay-2">Computer Science Graduate & Aspiring Software Developer</div>
+                <div class="title animate-element delay-2">Computer Science Graduate & Aspiring Software Engineer</div>
                 <p class="tagline animate-element delay-3">Eager to contribute to high-impact software projects through innovative problem-solving and agile teamwork.</p>
-                <a href="mailto:rohitrajsaji1703@gmail.com" class="contact-link animate-element delay-4">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <a href="mailto:rohitrajsaji1703@gmail.com" class="contact-link animate-element delay-4" aria-label="Send email to Rohit">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                         <rect x="2" y="4" width="20" height="16" rx="2"/>
                         <path d="m22 7-10 5L2 7"/>
                     </svg>
@@ -58,7 +88,7 @@
             <div class="education-item animate-element delay-2">
                 <h3>High School</h3>
                 <div class="institution">Sharjah Indian School - U.A.E</div>
-                <div class="period">June 2006 – May 2021</div>
+                <div class="period">June 2012 – May 2021</div>
             </div>
         </div>
     </section>
@@ -98,7 +128,7 @@
     <section id="experience">
         <div class="container">
             <h2 class="animate-element">Experience</h2>
-            <div class="timeline-item animate-element delay-1 slide-left">
+            <article class="timeline-item animate-element delay-1 slide-left">
                 <h3>Research Intern</h3>
                 <div class="company">Keltron</div>
                 <div class="period">July 2023 – August 2023</div>
@@ -106,8 +136,8 @@
                     <li>Developed machine learning models in Python using Google Colab for medical risk assessment (heart disease prediction)</li>
                     <li>Applied data science techniques to analyze and validate predictive models</li>
                 </ul>
-            </div>
-            <div class="timeline-item animate-element delay-2 slide-right">
+            </article>
+            <article class="timeline-item animate-element delay-2 slide-right">
                 <h3>Technical Intern</h3>
                 <div class="company">NeST Digital</div>
                 <div class="period">February 2022 – March 2022</div>
@@ -115,7 +145,7 @@
                     <li>Built and optimized dynamic web applications, improving UI responsiveness by 30%</li>
                     <li>Practiced end-to-end software development lifecycle including testing and deployment</li>
                 </ul>
-            </div>
+            </article>
         </div>
     </section>
 
@@ -123,7 +153,7 @@
     <section id="projects">
         <div class="container">
             <h2 class="animate-element">Projects</h2>
-            <div class="timeline-item animate-element delay-1 scale-up">
+            <article class="timeline-item animate-element delay-1 scale-up">
                 <h3>Automated Disease Detection & Pesticide Application</h3>
                 <div class="period">July 2024 – April 2025</div>
                 <ul>
@@ -131,8 +161,8 @@
                     <li>Integrated IoT-based decision system for automated pesticide spraying, optimizing agricultural efficiency</li>
                     <li>Enabled remote querying & control via NFC + Wi-Fi, showcasing applied AI for real-world impact</li>
                 </ul>
-            </div>
-            <div class="timeline-item animate-element delay-2 scale-up">
+            </article>
+            <article class="timeline-item animate-element delay-2 scale-up">
                 <h3>AgenticAI – Modular AI Agent System</h3>
                 <div class="period">September 2025</div>
                 <ul>
@@ -140,7 +170,7 @@
                     <li>Implemented data processing pipelines using NumPy and Pandas for efficient handling and transformation of structured/tabular data</li>
                     <li>Utilized Pandas for data cleaning and result aggregation from web scraping and API outputs</li>
                 </ul>
-            </div>
+            </article>
         </div>
     </section>
 
@@ -149,14 +179,14 @@
         <div class="container">
             <h2 class="animate-element">Certificates</h2>
             <div class="certificates-grid">
-                <div class="certificate-card animate-element delay-1 slide-left">
+                <article class="certificate-card animate-element delay-1 slide-left">
                     <h3>Problem Solving (Intermediate)</h3>
                     <div class="issuer">HackerRank</div>
-                </div>
-                <div class="certificate-card animate-element delay-2 slide-right">
+                </article>
+                <article class="certificate-card animate-element delay-2 slide-right">
                     <h3>SQL (Intermediate)</h3>
                     <div class="issuer">HackerRank</div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
@@ -166,21 +196,21 @@
         <div class="container">
             <h2 class="animate-element">Organizations & Community</h2>
             <div class="org-list">
-                <div class="org-item animate-element delay-1">
+                <article class="org-item animate-element delay-1">
                     <h3>IEEE Member</h3>
                     <div class="role">Active participation in engineering networking and knowledge exchange</div>
                     <div class="period">2022 – 2025</div>
-                </div>
-                <div class="org-item animate-element delay-2">
+                </article>
+                <article class="org-item animate-element delay-2">
                     <h3>IEDC Member</h3>
                     <div class="role">Contributed to innovation & entrepreneurship initiatives</div>
                     <div class="period">2022 – 2025</div>
-                </div>
-                <div class="org-item animate-element delay-3">
+                </article>
+                <article class="org-item animate-element delay-3">
                     <h3>NSS Volunteer</h3>
                     <div class="role">Social outreach and leadership experience</div>
                     <div class="period">2022 – 2024</div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
@@ -191,28 +221,40 @@
             <div class="footer-content">
                 <h3 class="animate-element">Get In Touch</h3>
                 <div class="social-links">
-                    <a href="mailto:rohitrajsaji1703@gmail.com" class="social-link animate-element delay-1" aria-label="Email">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <a href="mailto:rohitrajsaji1703@gmail.com" class="social-link animate-element delay-1" aria-label="Send email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                             <rect x="2" y="4" width="20" height="16" rx="2"/>
                             <path d="m22 7-10 5L2 7"/>
                         </svg>
                         <span>Email</span>
                     </a>
-                    <a href="https://linkedin.com/in/rohitrajsaji" target="_blank" rel="noopener noreferrer" class="social-link animate-element delay-2" aria-label="LinkedIn">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <a href="https://linkedin.com/in/rohitrajsaji" target="_blank" rel="noopener noreferrer" class="social-link animate-element delay-2" aria-label="Visit LinkedIn profile">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
                         </svg>
                         <span>LinkedIn</span>
                     </a>
-                    <a href="https://github.com/rohitrajsaji" target="_blank" rel="noopener noreferrer" class="social-link animate-element delay-3" aria-label="GitHub">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <a href="https://github.com/rohitrajsaji" target="_blank" rel="noopener noreferrer" class="social-link animate-element delay-3" aria-label="Visit GitHub profile">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                             <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/>
                         </svg>
                         <span>GitHub</span>
                     </a>
                 </div>
+                <div class="footer-divider animate-element delay-4"></div>
+                <p class="copyright animate-element delay-5">&copy; 2025 Rohit Raj Saji. All rights reserved.</p>
+            </div>
         </div>
     </footer>
-    <script src="app.js"></script>
+
+    <!-- Optimized script loading -->
+    <script src="app.js" defer></script>
+
+    <!-- Remove loading class when page is ready -->
+    <script>
+        window.addEventListener('load', () => {
+            document.body.classList.remove('loading');
+        });
+    </script>
 </body>
 </html>
