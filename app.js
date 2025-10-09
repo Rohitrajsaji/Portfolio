@@ -1,212 +1,105 @@
-// Performance optimized portfolio JavaScript
-
-// Debounce utility for scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
+        // Intersection Observer for section animations
+        const sections = document.querySelectorAll('.section');
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
         };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
 
-// Check for reduced motion preference
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
 
-// Mobile menu toggle
-const menuToggle = document.getElementById('menuToggle');
-const navLinks = document.getElementById('navLinks');
-
-if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-
-        // Prevent body scroll when menu is open
-        if (navLinks.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    });
-
-    // Close mobile menu when link clicked
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
+        sections.forEach(section => {
+            observer.observe(section);
         });
-    });
 
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-    });
-}
-
-// OPTIMIZED Hide/show navbar on scroll
-let lastScroll = 0;
-let ticking = false;
-const navbar = document.getElementById('navbar');
-
-function updateNavbar() {
-    const currentScroll = window.pageYOffset;
-
-    if (currentScroll <= 0) {
-        navbar?.classList.remove('hidden');
-    } else if (currentScroll > lastScroll && currentScroll > 80) {
-        navbar?.classList.add('hidden');
-    } else if (currentScroll < lastScroll) {
-        navbar?.classList.remove('hidden');
-    }
-
-    lastScroll = currentScroll;
-    ticking = false;
-}
-
-// Throttled scroll listener
-const throttledNavUpdate = () => {
-    if (!ticking) {
-        requestAnimationFrame(updateNavbar);
-        ticking = true;
-    }
-};
-
-window.addEventListener('scroll', throttledNavUpdate, { passive: true });
-
-// OPTIMIZED Scroll Animations
-const animateElements = document.querySelectorAll('.animate-element');
-const animatedElements = new Set(); // Track animated elements
-
-// Enhanced observer options for better mobile performance
-const observerOptions = {
-    threshold: 0.15, // Slightly higher threshold
-    rootMargin: '0px 0px -5% 0px' // Less aggressive triggering
-};
-
-// Create intersection observer only if motion is allowed
-let observer = null;
-
-if (!prefersReducedMotion && animateElements.length > 0) {
-    observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !animatedElements.has(entry.target)) {
-                // Add animation class
-                entry.target.classList.add('animate-in');
-
-                // Mark as animated and stop observing
-                animatedElements.add(entry.target);
-                observer.unobserve(entry.target);
-
-                // Clean up will-change after animation
-                setTimeout(() => {
-                    entry.target.style.willChange = 'auto';
-                }, 800); // Match animation duration
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 5px 30px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
             }
         });
-    }, observerOptions);
 
-    // Observe all animate elements
-    animateElements.forEach(element => {
-        observer.observe(element);
-    });
-}
+        // Active nav link on scroll
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
 
-// Handle page load animations
-function initializeAnimations() {
-    if (prefersReducedMotion) {
-        // If reduced motion, show all elements immediately
-        animateElements.forEach(element => {
-            element.classList.add('animate-in');
-            element.style.willChange = 'auto';
-        });
-        return;
-    }
-
-    // Hero section and nav animations on load
-    const heroElements = document.querySelectorAll('#home .animate-element');
-    const navElements = document.querySelectorAll('nav .animate-element');
-
-    [...heroElements, ...navElements].forEach(element => {
-        element.classList.add('animate-in');
-        animatedElements.add(element);
-
-        // Don't observe hero/nav elements
-        if (observer) {
-            observer.unobserve(element);
-        }
-
-        // Clean up will-change
-        setTimeout(() => {
-            element.style.willChange = 'auto';
-        }, 800);
-    });
-}
-
-// Initialize on DOM content loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeAnimations);
-} else {
-    initializeAnimations();
-}
-
-// Handle visibility change (tab switching) for performance
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        // Pause animations when tab is hidden
-        animateElements.forEach(el => {
-            el.style.animationPlayState = 'paused';
-        });
-    } else {
-        // Resume animations when tab is visible
-        animateElements.forEach(el => {
-            el.style.animationPlayState = 'running';
-        });
-    }
-});
-
-// Cleanup observer on page unload
-window.addEventListener('beforeunload', () => {
-    if (observer) {
-        observer.disconnect();
-    }
-});
-
-// Additional mobile optimizations
-if ('ontouchstart' in window) {
-    // Add touch-specific optimizations
-    document.body.addEventListener('touchstart', () => {}, { passive: true });
-
-    // Prevent bounce scrolling on iOS
-    document.body.addEventListener('touchmove', (e) => {
-        if (e.target === document.body) {
-            e.preventDefault();
-        }
-    }, { passive: false });
-}
-
-// Performance monitoring (development only)
-if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    // Monitor animation performance
-    const animationStart = performance.now();
-    let animationCount = 0;
-
-    animateElements.forEach(el => {
-        el.addEventListener('transitionstart', () => {
-            animationCount++;
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
         });
 
-        el.addEventListener('transitionend', () => {
-            animationCount--;
-            if (animationCount === 0) {
-                const duration = performance.now() - animationStart;
-                console.log(`All animations completed in ${duration.toFixed(2)}ms`);
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add parallax effect to hero
+        window.addEventListener('scroll', () => {
+            const hero = document.querySelector('.hero');
+            const scrolled = window.pageYOffset;
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
             }
         });
-    });
-}
+
+        // Animate stats on scroll
+        const animateStats = () => {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseFloat(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target.toString().includes('.') ? target.toFixed(2) : target + '+';
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = current.toFixed(target.toString().includes('.') ? 2 : 0);
+                    }
+                }, 30);
+            });
+        };
+
+        // Trigger stat animation when about section is visible
+        const aboutSection = document.getElementById('about');
+        const statObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    statObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (aboutSection) {
+            statObserver.observe(aboutSection);
+        }
